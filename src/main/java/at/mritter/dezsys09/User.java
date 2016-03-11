@@ -26,20 +26,16 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    public User() {
+
+    }
+
     public String getEmail() {
         return email;
     }
 
     public byte[] getPasswordHash() {
         return passwordHash;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", passwordHash=" + Arrays.toString(passwordHash) +
-                '}';
     }
 
     @Override
