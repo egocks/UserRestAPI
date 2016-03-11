@@ -1,5 +1,6 @@
 package at.mritter.dezsys09;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -15,17 +16,40 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class UserEndpoint {
 
+    @Autowired
+    private UserRepository repo;
+
     @POST
     @Path("/register")
-    public Response register() {
-        return Response.status(Response.Status.OK.getStatusCode()).entity("Registrierung").build();
+    public Response register(User user) {
+        if (user == null)
+            return Response
+                    .status(Response.Status.BAD_REQUEST.getStatusCode())
+                    .entity("Email address or password missing")
+                    .build();
+        if (repo.exists(user.getEmail()))
+            return Response
+                    .status(Response.Status.BAD_REQUEST.getStatusCode())
+                    .entity("User with given email address already exists")
+                    .build();
+        repo.save(user);
+        return Response
+                .status(Response.Status.OK.getStatusCode())
+                .build();
     }
-
 
     @POST
     @Path("/login")
-    public Response login() {
-        return Response.status(Response.Status.OK.getStatusCode()).entity("Login").build();
+    public Response login(User user) {
+        User dbUser = repo.findOne(user.getEmail());
+        if (dbUser.equals(user))
+            return Response
+                    .status(Response.Status.OK.getStatusCode())
+                    .build();
+        return Response
+                .status(Response.Status.UNAUTHORIZED.getStatusCode())
+                .entity("Wrong email or password")
+                .build();
     }
 
 }

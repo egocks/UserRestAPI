@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 public class JerseyConfiguration extends ResourceConfig {
-
     public JerseyConfiguration() {
         this.register(UserEndpoint.class);
     }
-
 }
