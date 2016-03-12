@@ -1,11 +1,13 @@
 package at.mritter.dezsys09.rest;
 
-import at.mritter.dezsys09.persistance.UserRepository;
 import at.mritter.dezsys09.persistance.User;
+import at.mritter.dezsys09.persistance.UserRepository;
 import at.mritter.dezsys09.rest.response.ResponseCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,9 +25,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/register")
-    public Response register(User user) {
-        if (user == null)
-            return ResponseCreator.badRequest("Email address or password missing");
+    public Response register(@Valid  User user) {
         if (repo.exists(user.getEmail()))
             return ResponseCreator.badRequest("User with given email address already exists");
         repo.save(user);
@@ -34,7 +34,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/login")
-    public Response login(User user) {
+    public Response login(@Valid User user) {
         User requestUser = repo.findOne(user.getEmail());
         if (Arrays.equals(requestUser.getPasswordHash(), user.getPasswordHash()))
             return ResponseCreator.ok("Successfully logged in");

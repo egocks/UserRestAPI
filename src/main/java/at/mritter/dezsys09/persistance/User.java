@@ -2,9 +2,12 @@ package at.mritter.dezsys09.persistance;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.security.MessageDigest;
 
 /**
@@ -18,6 +21,7 @@ import java.security.MessageDigest;
 public class User {
 
     @Id
+    @Email(message="{Email.user.email}")
     private String email;
 
     private byte[] passwordHash;
