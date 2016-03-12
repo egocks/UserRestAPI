@@ -1,4 +1,4 @@
-package at.mritter.dezsys09;
+package at.mritter.dezsys09.rest.response;
 
 public class ResponseMessage {
 

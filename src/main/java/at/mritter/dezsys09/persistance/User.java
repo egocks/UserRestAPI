@@ -1,4 +1,4 @@
-package at.mritter.dezsys09;
+package at.mritter.dezsys09.persistance;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,8 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.security.MessageDigest;
-import java.util.Arrays;
 
+/**
+ * This class represents a user entity identified by it's email address.
+ * The password is saved as hash in a byte array.
+ *
+ * @author Mathias Ritter
+ * @version 1.0
+ */
 @Entity
 public class User {
 
@@ -20,7 +26,7 @@ public class User {
      * Creates a new user with the given email and plain password. The email address must be unique.
      * This constructor is used by jackson to deserialize requests.
      *
-     * @param email unique email of new user
+     * @param email    unique email of new user
      * @param password plain password of new user
      */
     @JsonCreator
@@ -31,10 +37,12 @@ public class User {
     /**
      * Creates a new user with the given email and hashed password. The email address must be unique.
      *
-     * @param email unique email of new user
+     * @param email        unique email of new user
      * @param passwordHash hashed password of new user
      */
     public User(String email, byte[] passwordHash) {
+        if (email == null || passwordHash == null)
+            throw new IllegalArgumentException("The email address and password must not be null");
         this.email = email;
         this.passwordHash = passwordHash;
     }
@@ -43,14 +51,6 @@ public class User {
      * Constructor needed by hibernate to create object via reflection
      */
     private User() {
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public byte[] getPasswordHash() {
-        return passwordHash;
     }
 
     /**
@@ -67,6 +67,14 @@ public class User {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public byte[] getPasswordHash() {
+        return passwordHash;
     }
 
 

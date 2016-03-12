@@ -1,10 +1,16 @@
-package at.mritter.dezsys09;
+package at.mritter.dezsys09.config;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * This class is used to configure the web console of H2
+ *
+ * @author Mathias Ritter
+ * @version 1.0
+ */
 @Configuration
 public class WebConfiguration {
 
