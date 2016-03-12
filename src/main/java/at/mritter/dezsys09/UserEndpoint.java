@@ -25,12 +25,12 @@ public class UserEndpoint {
         if (user == null)
             return Response
                     .status(Response.Status.BAD_REQUEST.getStatusCode())
-                    .entity(new ResponseMessage("Email address or password missing"))
+                    .entity(new ResponseMessage("Email address or password missing", Response.Status.BAD_REQUEST.getStatusCode()))
                     .build();
         if (repo.exists(user.getEmail()))
             return Response
                     .status(Response.Status.BAD_REQUEST.getStatusCode())
-                    .entity(new ResponseMessage("User with given email address already exists"))
+                    .entity(new ResponseMessage("User with given email address already exists", Response.Status.BAD_REQUEST.getStatusCode()))
                     .build();
         repo.save(user);
         return Response
@@ -41,15 +41,15 @@ public class UserEndpoint {
     @POST
     @Path("/login")
     public Response login(User user) {
-        User dbUser = repo.findOne(user.getEmail());
-        if (dbUser.equals(user))
+        User requestUser = repo.findOne(user.getEmail());
+        if (requestUser.getPasswordHash() == user.getPasswordHash())
             return Response
                     .status(Response.Status.OK.getStatusCode())
-                    .entity(new ResponseMessage("Successfully logged in"))
+                    .entity(new ResponseMessage("Successfully logged in", Response.Status.OK.getStatusCode()))
                     .build();
         return Response
                 .status(Response.Status.UNAUTHORIZED.getStatusCode())
-                .entity(new ResponseMessage("Wrong email or password"))
+                .entity(new ResponseMessage("Wrong email or password", Response.Status.UNAUTHORIZED.getStatusCode()))
                 .build();
     }
 
