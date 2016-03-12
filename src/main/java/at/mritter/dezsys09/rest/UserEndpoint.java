@@ -26,6 +26,8 @@ public class UserEndpoint {
     @POST
     @Path("/register")
     public Response register(@Valid  User user) {
+        if (user == null)
+            return ResponseCreator.badRequest("Payload is empty");
         if (repo.exists(user.getEmail()))
             return ResponseCreator.badRequest("User with given email address already exists");
         repo.save(user);
@@ -35,6 +37,8 @@ public class UserEndpoint {
     @POST
     @Path("/login")
     public Response login(@Valid User user) {
+        if (user == null)
+            return ResponseCreator.badRequest("Payload is empty");
         User requestUser = repo.findOne(user.getEmail());
         if (Arrays.equals(requestUser.getPasswordHash(), user.getPasswordHash()))
             return ResponseCreator.ok("Successfully logged in");

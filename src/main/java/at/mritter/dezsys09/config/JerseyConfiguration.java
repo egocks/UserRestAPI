@@ -21,14 +21,14 @@ public class JerseyConfiguration extends ResourceConfig {
         // enable jersey bean validation
         this.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 
-        // register restful endpoint
-        this.register(UserEndpoint.class);
-
-        // register exception mapper for bean validation exceptions
-        this.register(ConstraintViolationExceptionMapper.class);
         // register exception mapper for json mapping exceptions
         this.register(JsonMappingExceptionMapper.class);
+        // register exception mapper for bean validation exceptions
+        this.register(ConstraintViolationExceptionMapper.class);
         // register simple exception mapper for any type of exception
         this.register(BasicExceptionMapper.class);
+
+        // register restful endpoint
+        this.register(UserEndpoint.class);
     }
 }
