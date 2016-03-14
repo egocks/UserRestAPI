@@ -32,11 +32,11 @@ public class User {
     @Email(message="{Email.user.email}")
     private String email;
 
+    @NotNull(message="{NotNull.user.passwordHash}")
     private byte[] passwordHash;
 
     @Transient
     @Size(min=5, message="{Size.user.passwordRaw}")
-    @NotNull(message="{NotNull.user.passwordRaw}")
     private String passwordRaw;
 
     /**
