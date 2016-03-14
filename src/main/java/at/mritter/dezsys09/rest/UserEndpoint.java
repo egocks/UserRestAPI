@@ -25,7 +25,7 @@ public class UserEndpoint {
 
     @POST
     @Path("/register")
-    public Response register(@Valid  User user) {
+    public Response register(@Valid User user) {
         if (user == null)
             return ResponseCreator.badRequest("Payload is empty");
         if (repo.exists(user.getEmail()))

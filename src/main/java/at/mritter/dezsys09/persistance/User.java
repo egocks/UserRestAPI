@@ -3,12 +3,19 @@ package at.mritter.dezsys09.persistance;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.security.MessageDigest;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class represents a user entity identified by it's email address.
@@ -21,10 +28,16 @@ import java.security.MessageDigest;
 public class User {
 
     @Id
+    @NotNull(message="{NotNull.user.email}")
     @Email(message="{Email.user.email}")
     private String email;
 
     private byte[] passwordHash;
+
+    @Transient
+    @Size(min=5, message="{Size.user.passwordRaw}")
+    @NotNull(message="{NotNull.user.passwordRaw}")
+    private String passwordRaw;
 
     /**
      * Creates a new user with the given email and plain password. The email address must be unique.
@@ -35,10 +48,9 @@ public class User {
      */
     @JsonCreator
     public User(@JsonProperty("email") String email, @JsonProperty("password") String password) {
-        if (email == null || passwordHash == null)
-            throw new IllegalArgumentException("The email address and password must not be null");
         this.email = email;
-        this.passwordHash = this.createHash(password);
+        this.passwordRaw = password;
+        this.passwordHash = this.createHash();
     }
 
     /**
@@ -50,16 +62,15 @@ public class User {
     /**
      * Hashes a given password by using SHA-256
      *
-     * @param password plain password
      * @return hashed password as byte array
      */
-    private byte[] createHash(String password) {
+    private byte[] createHash() {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(password.getBytes("UTF-8"));
+            md.update(this.passwordRaw.getBytes("UTF-8"));
             return md.digest();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return null;
         }
     }
 
