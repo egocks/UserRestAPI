@@ -97,6 +97,11 @@
             </exclusions>
 
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-jetty</artifactId>
+            <version>2.22.2</version>
+        </dependency>
     </dependencies>
 
     <build>
