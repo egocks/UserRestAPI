@@ -40,7 +40,7 @@ public class UserEndpoint {
         if (user == null)
             return ResponseCreator.badRequest("Payload is empty");
         User requestUser = repo.findOne(user.getEmail());
-        if (Arrays.equals(requestUser.getPasswordHash(), user.getPasswordHash()))
+        if (requestUser != null && Arrays.equals(requestUser.getPasswordHash(), user.getPasswordHash()))
             return ResponseCreator.ok("Successfully logged in");
         return ResponseCreator.forbidden("Wrong email or password");
     }
