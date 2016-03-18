@@ -5,6 +5,10 @@ public class ResponseMessage {
     private int status;
     private String message;
 
+    private ResponseMessage() {
+
+    }
+
     public ResponseMessage(String message, int status) {
         this.message = message;
         this.status = status;
