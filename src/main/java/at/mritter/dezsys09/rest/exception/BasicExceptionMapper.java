@@ -1,6 +1,6 @@
 package at.mritter.dezsys09.rest.exception;
 
-import at.mritter.dezsys09.rest.response.ResponseCreator;
+import at.mritter.dezsys09.rest.response.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class BasicExceptionMapper implements ExceptionMapper<Exception> {
     public Response toResponse(Exception e) {
         e.printStackTrace();
         logger.error(e.getClass() + ": " + e.getMessage());
-        return ResponseCreator.internalServerError(e.getMessage());
+        return ResponseUtil.internalServerError(e.getMessage());
     }
 
 }

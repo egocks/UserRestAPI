@@ -1,6 +1,6 @@
 package at.mritter.dezsys09.rest.exception;
 
-import at.mritter.dezsys09.rest.response.ResponseCreator;
+import at.mritter.dezsys09.rest.response.ResponseUtil;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * This exception mapper is used to map JsonMappingException to a proper JSON response.
+ *
+ * @author Mathias Ritter
+ * @version 1.0
+ */
 @Provider
 public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingException> {
 
@@ -17,6 +23,6 @@ public class JsonMappingExceptionMapper implements ExceptionMapper<JsonMappingEx
     @Override
     public Response toResponse(JsonMappingException e) {
         logger.error(e.getClass() + ": " + e.getMessage());
-        return ResponseCreator.badRequest(e.getMessage());
+        return ResponseUtil.badRequest(e.getMessage());
     }
 }

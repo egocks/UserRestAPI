@@ -14,6 +14,12 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.*;
 
+/**
+ * User Acceptance Tests for RESTful User Endpoint
+ *
+ * @author Mathias Ritter
+ * @version 1.0
+ */
 public class UserEndpointTest {
 
     private RestTemplate restTemplate;
