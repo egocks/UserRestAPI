@@ -84,15 +84,13 @@ public class UserEndpointTest {
     @Test(expected=HttpClientErrorException.class)
     public void testRegisterInvalidPassword1() {
         User user = new User("blabla@test.com", "1234");
-        ResponseEntity<ResponseMessage> responseRegister = restTemplate.postForEntity("http://" + HOST + "/register", user, ResponseMessage.class);
-        System.out.println(responseRegister.getBody().getMessage());
+        restTemplate.postForEntity("http://" + HOST + "/register", user, ResponseMessage.class);
     }
 
     @Test(expected=HttpClientErrorException.class)
     public void testRegisterInvalidPassword2() {
         User user = new User("blabla@test.com", "");
-        ResponseEntity<ResponseMessage> responseRegister = restTemplate.postForEntity("http://" + HOST + "/register", user, ResponseMessage.class);
-        System.out.println(responseRegister.getBody().getMessage());
+        restTemplate.postForEntity("http://" + HOST + "/register", user, ResponseMessage.class);
     }
 
     @Test
@@ -113,7 +111,7 @@ public class UserEndpointTest {
     @Test(expected=HttpClientErrorException.class)
     public void testLoginInvalidEmail2() {
         User user = new User("", "12345");
-        ResponseEntity<ResponseMessage> responseLogin = restTemplate.postForEntity("http://" + HOST + "/login", user, ResponseMessage.class);
+        restTemplate.postForEntity("http://" + HOST + "/login", user, ResponseMessage.class);
     }
 
     @Test(expected=HttpClientErrorException.class)

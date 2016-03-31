@@ -26,7 +26,6 @@ public class BasicExceptionMapper implements ExceptionMapper<Exception> {
      * @return Response containing message of the Exception
      */
     public Response toResponse(Exception e) {
-        e.printStackTrace();
         logger.error(e.getClass() + ": " + e.getMessage());
         return ResponseUtil.internalServerError(e.getMessage());
     }
