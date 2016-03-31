@@ -11,7 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <main><!-- TODO set main --></main>
+        <main>at.mritter.dezsys09.Application</main>
         <jar.filename>dezsys09</jar.filename>
     </properties>
 
@@ -169,6 +169,41 @@
                     </filesets>
                 </configuration>
             </plugin>
+            <!-- generate test report -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/testreport</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate css files for test report -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.4</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <configuration>
+                            <generateReports>false</generateReports>
+                            <outputDirectory>${basedir}/target/classes/testreport</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate javadoc and get it ready for packaging -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -188,6 +223,30 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Generate git log -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.3.2</version>
+                <executions>
+                    <execution>
+                        <id>generate git log</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>git</executable>
+                    <workingDirectory>${basedir}</workingDirectory>
+                    <outputFile>${basedir}/target/classes/commits.log</outputFile>
+                    <arguments>
+                        <argument>log</argument>
+                        <argument>--stat</argument>
+                    </arguments>
+                </configuration>
             </plugin>
             <!-- pack dependencies into final jar and set main class -->
             <plugin>
