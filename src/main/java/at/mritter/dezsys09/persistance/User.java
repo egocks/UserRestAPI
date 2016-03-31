@@ -3,6 +3,7 @@ package at.mritter.dezsys09.persistance;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @NotNull(message="{NotNull.user.email}")
+    @NotBlank(message="{NotBlank.user.email}")
     @Email(message="{Email.user.email}")
     private String email;
 
@@ -37,6 +38,7 @@ public class User {
 
     @Transient
     @Size(min=5, message="{Size.user.passwordRaw}")
+    @JsonProperty("password")
     private String passwordRaw;
 
     /**
