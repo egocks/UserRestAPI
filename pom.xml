@@ -224,30 +224,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Generate git log -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.3.2</version>
-                <executions>
-                    <execution>
-                        <id>generate git log</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>git</executable>
-                    <workingDirectory>${basedir}</workingDirectory>
-                    <outputFile>${basedir}/target/classes/commits.log</outputFile>
-                    <arguments>
-                        <argument>log</argument>
-                        <argument>--stat</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
             <!-- pack dependencies into final jar and set main class -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
